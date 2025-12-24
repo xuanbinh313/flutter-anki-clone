@@ -1,3 +1,4 @@
+import 'package:anki_clone/features/todo/presentation/pages/todo_page.dart';
 import 'package:anki_clone/main.dart';
 import 'package:anki_clone/pages/login_page.dart';
 import 'package:flutter/material.dart';
@@ -123,19 +124,21 @@ class _AccountPageState extends State<AccountPage> {
             decoration: const InputDecoration(labelText: 'User Name'),
           ),
           const SizedBox(height: 18),
-          TextFormField(
-            controller: _websiteController,
-            decoration: const InputDecoration(labelText: 'Website'),
-            readOnly: true,
-            enabled: false,
-          ),
-          const SizedBox(height: 18),
           ElevatedButton(
             onPressed: _loading ? null : _updateProfile,
             child: Text(_loading ? 'Saving...' : 'Update'),
           ),
-          const SizedBox(height: 18),
-          TextButton(onPressed: _signOut, child: const Text('Sign Out')),
+          const SizedBox(height: 16),
+          ElevatedButton(onPressed: _signOut, child: const Text('Sign Out')),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(
+                context,
+              ).push(MaterialPageRoute(builder: (context) => const TodoPage()));
+            },
+            child: const Text('Go to Todos'),
+          ),
         ],
       ),
     );
