@@ -1,3 +1,4 @@
+import 'package:anki_clone/features/note/presentation/pages/note_page.dart';
 import 'package:anki_clone/features/todo/presentation/pages/todo_page.dart';
 import 'package:anki_clone/main.dart';
 import 'package:anki_clone/pages/login_page.dart';
@@ -138,6 +139,14 @@ class _AccountPageState extends State<AccountPage> {
               ).push(MaterialPageRoute(builder: (context) => const TodoPage()));
             },
             child: const Text('Go to Todos'),
+          ),
+          ElevatedButton(
+            child: const Text('Go to Notes'),
+            onPressed: () {
+              Navigator.of(
+                context,
+              ).push(MaterialPageRoute(builder: (context) => const NotePage()));
+            },
           ),
         ],
       ),

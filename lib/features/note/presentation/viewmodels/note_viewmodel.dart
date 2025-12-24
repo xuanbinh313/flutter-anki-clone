@@ -52,9 +52,9 @@ class NoteListNotifier extends AsyncNotifier<List<Note>> {
     final addNote = ref.read(addNoteUseCaseProvider);
     final newNote = Note(
       id: const Uuid().v4(),
-      noteTypeId: "",
-      flds: "",
-      sfld: "",
+      noteTypeId: note.noteTypeId,
+      flds: note.flds,
+      sfld: note.sfld,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );

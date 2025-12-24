@@ -1,3 +1,5 @@
+import 'package:anki_clone/utils/parse.dart';
+
 import '../../domain/entities/note.dart';
 
 class NoteModel extends Note {
@@ -13,7 +15,7 @@ class NoteModel extends Note {
   factory NoteModel.fromJson(Map<String, dynamic> json) {
     return NoteModel(
       id: json['id'],
-      noteTypeId: json['noteTypeId'],
+      noteTypeId: json['note_type_id'],
       flds: json['flds'],
       sfld: json['sfld'],
       createdAt: DateTime.parse(json['created_at']),
@@ -24,22 +26,22 @@ class NoteModel extends Note {
   Map<String, dynamic> toSqlite() {
     return {
       'id': id,
-      'noteTypeId': noteTypeId,
+      'note_type_id': noteTypeId,
       'flds': flds,
       'sfld': sfld,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt.microsecondsSinceEpoch ~/ 1000,
+      'updated_at': updatedAt.microsecondsSinceEpoch ~/ 1000,
     };
   }
 
   Map<String, dynamic> toSupabase() {
     return {
       'id': id,
-      'noteTypeId': noteTypeId,
+      'note_type_id': noteTypeId,
       'flds': flds,
       'sfld': sfld,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': toIsoWithOffset(createdAt),
+      'updated_at': toIsoWithOffset(updatedAt),
       'user_id':
           _getUserId(), // Assuming user_id is handled by RLS or manually injected if needed.
       // Actually it's better to inject user_id from repository or let Supabase Auth handle it via defaults/triggers if possible.

@@ -2,21 +2,21 @@ import 'package:anki_clone/features/note/domain/entities/note.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
-import '../viewmodels/todo_viewmodel.dart';
+import '../viewmodels/note_viewmodel.dart';
 
-class TodoPage extends ConsumerWidget {
-  const TodoPage({super.key});
+class NotePage extends ConsumerWidget {
+  const NotePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final noteState = ref.watch(noteListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Todo List')),
+      appBar: AppBar(title: const Text('Note List')),
       body: noteState.when(
         data: (notes) {
           if (notes.isEmpty) {
-            return const Center(child: Text('No todos yet.'));
+            return const Center(child: Text('No notes yet.'));
           }
           return ListView.builder(
             itemCount: notes.length,
@@ -24,6 +24,7 @@ class TodoPage extends ConsumerWidget {
               final note = notes[index];
               return ListTile(
                 title: Text(note.sfld),
+                subtitle: Text(note.createdAt.toString()),
                 trailing: IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () {

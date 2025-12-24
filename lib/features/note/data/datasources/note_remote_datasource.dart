@@ -34,7 +34,7 @@ class NoteRemoteDataSourceImpl implements NoteRemoteDataSource {
     await supabaseClient
         .from('notes')
         .update({
-          'noteTypeId': note.noteTypeId,
+          'note_type_id': note.noteTypeId,
           'flds': note.flds,
           'sfld': note.sfld,
           'updated_at': note.updatedAt.toIso8601String(),
