@@ -21,6 +21,12 @@ class NoteRepositoryImpl implements NoteRepository {
   }
 
   @override
+  Future<Note> getNoteById(String id) async {
+    final remoteNote = await remoteDataSource.getNoteById(id);
+    return remoteNote;
+  }
+
+  @override
   Future<void> addNote(Note note) async {
     final noteModel = NoteModel.fromEntity(note);
 
@@ -51,7 +57,6 @@ class NoteRepositoryImpl implements NoteRepository {
     await remoteDataSource.deleteNote(id);
   }
 
-  @override
   Future<void> syncNotes() async {
     // This would be called periodically or on app start to push unsynced changes
     // For now, leaving empty or simple implementation.

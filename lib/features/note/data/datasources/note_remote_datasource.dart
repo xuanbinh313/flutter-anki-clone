@@ -3,6 +3,7 @@ import '../models/note_model.dart';
 
 abstract class NoteRemoteDataSource {
   Future<List<NoteModel>> getNotes();
+  Future<NoteModel> getNoteById(String id);
   Future<void> addNote(NoteModel note);
   Future<void> updateNote(NoteModel note);
   Future<void> deleteNote(String id);
@@ -20,6 +21,15 @@ class NoteRemoteDataSourceImpl implements NoteRemoteDataSource {
         .select()
         .order('created_at');
     return (response as List).map((json) => NoteModel.fromJson(json)).toList();
+  }
+
+  @override
+  Future<NoteModel> getNoteById(String id) async {
+    final response = await supabaseClient
+        .from('notes')
+        .select('id,note_type_id,sfld,flds,created_at,updated_at')
+        .eq('id', id);
+    return NoteModel.fromJson(response.first);
   }
 
   @override

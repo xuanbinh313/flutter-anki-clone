@@ -1,10 +1,11 @@
 import 'dart:async';
+import 'package:anki_clone/features/note/domain/usecases/get_note_by_id_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../main.dart'; // Accessing global supabase client
 import '../../domain/entities/note.dart';
-import '../../domain/usecases/add_todo_usecase.dart';
-import '../../domain/usecases/delete_todo_usecase.dart';
+import '../../domain/usecases/add_note_usecase.dart';
+import '../../domain/usecases/delete_note_usecase.dart';
 import '../../domain/usecases/get_todos_usecase.dart';
 import '../../domain/usecases/update_todo_usecase.dart';
 import '../../data/datasources/note_remote_datasource.dart';
@@ -34,6 +35,9 @@ final updateNoteUseCaseProvider = Provider(
 );
 final deleteNoteUseCaseProvider = Provider(
   (ref) => DeleteNoteUseCase(ref.watch(noteRepositoryProvider)),
+);
+final getNoteByIdUseCaseProvider = Provider(
+  (ref) => GetNoteByIdUseCase(ref.watch(noteRepositoryProvider)),
 );
 
 // ViewModel (AsyncNotifier)
@@ -109,8 +113,29 @@ class NoteListNotifier extends AsyncNotifier<List<Note>> {
   }
 }
 
+class NoteDetailsNotifier extends AsyncNotifier<Note> {
+  final String id;
+
+  NoteDetailsNotifier({required this.id});
+
+  @override
+  FutureOr<Note> build() async {
+    return _getNoteById(id);
+  }
+
+  Future<Note> _getNoteById(String id) {
+    final getNoteById = ref.read(getNoteByIdUseCaseProvider);
+    return getNoteById(id);
+  }
+}
+
 final noteListProvider = AsyncNotifierProvider<NoteListNotifier, List<Note>>(
   () {
     return NoteListNotifier();
   },
 );
+
+final noteDetailsProvider =
+    AsyncNotifierProvider.family<NoteDetailsNotifier, Note, String>(
+      (id) => NoteDetailsNotifier(id: id),
+    );
