@@ -1,4 +1,5 @@
 import 'package:anki_clone/features/note/presentation/pages/note_list_page.dart';
+import 'package:anki_clone/features/template/presentation/pages/template_list_page.dart';
 import 'package:anki_clone/features/todo/presentation/pages/todo_page.dart';
 import 'package:anki_clone/main.dart';
 import 'package:anki_clone/pages/login_page.dart';
@@ -15,9 +16,23 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends State<AccountPage> {
   final _usernameController = TextEditingController();
   final _websiteController = TextEditingController();
-
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle = TextStyle(
+    fontSize: 30,
+    fontWeight: FontWeight.bold,
+  );
+  static const List<String> _widgetOptions = <String>[
+    'Courses',
+    'Decks',
+    'Notes',
+  ];
   String? _avatarUrl;
   var _loading = true;
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   /// Called once a user id is received within `onAuthenticated()`
   Future<void> _getProfile() async {
@@ -140,6 +155,7 @@ class _AccountPageState extends State<AccountPage> {
             },
             child: const Text('Go to Todos'),
           ),
+          const SizedBox(height: 16),
           ElevatedButton(
             child: const Text('Go to Notes'),
             onPressed: () {
@@ -148,7 +164,41 @@ class _AccountPageState extends State<AccountPage> {
               );
             },
           ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            child: const Text('Go to Templates'),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const TemplateListPage(),
+                ),
+              );
+            },
+          ),
         ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Colors.blue),
+              child: Text('Drawer Header'),
+            ),
+            for (int i = 0; i < _widgetOptions.length; i++)
+              ListTile(
+                title: Text(_widgetOptions[i]),
+                selected: _selectedIndex == i,
+                onTap: () {
+                  // Update the state of the app
+                  _onItemTapped(i);
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
+              ),
+          ],
+        ),
       ),
     );
   }

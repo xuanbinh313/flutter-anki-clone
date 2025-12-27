@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../viewmodels/note_viewmodel.dart';
+import '../viewmodels/template_viewmodel.dart';
 
-class NoteDetailsPage extends ConsumerStatefulWidget {
-  final String noteId;
-  const NoteDetailsPage({super.key, required this.noteId});
+class TemplateDetailsPage extends ConsumerStatefulWidget {
+  final String templateId;
+  const TemplateDetailsPage({super.key, required this.templateId});
 
   @override
-  ConsumerState<NoteDetailsPage> createState() => _NoteDetailsPageState();
+  ConsumerState<TemplateDetailsPage> createState() =>
+      _TemplateDetailsPageState();
 }
 
-class _NoteDetailsPageState extends ConsumerState<NoteDetailsPage> {
+class _TemplateDetailsPageState extends ConsumerState<TemplateDetailsPage> {
   late final TextEditingController _controller;
   @override
   void initState() {
@@ -27,22 +28,22 @@ class _NoteDetailsPageState extends ConsumerState<NoteDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final noteState = ref.watch(noteDetailsProvider(widget.noteId));
+    final templateState = ref.watch(templateDetailsProvider(widget.templateId));
     return Scaffold(
-      appBar: AppBar(title: const Text('Note Details')),
-      body: noteState.when(
-        data: (note) {
-          _controller.text = note.sfld;
+      appBar: AppBar(title: const Text('Template Details')),
+      body: templateState.when(
+        data: (template) {
+          _controller.text = template.name;
           return Container(
             padding: EdgeInsets.all(20.0),
             child: Column(
               children: [
                 TextField(
                   controller: _controller,
-                  decoration: const InputDecoration(labelText: 'SFld'),
+                  decoration: const InputDecoration(labelText: 'Name'),
                 ),
-                Text(note.createdAt.toString()),
-                Text(note.updatedAt.toString()),
+                Text(template.createdAt.toString()),
+                Text(template.updatedAt.toString()),
               ],
             ),
           );
