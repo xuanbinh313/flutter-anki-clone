@@ -6,7 +6,7 @@ class NoteModel extends Note {
   NoteModel({
     required super.id,
     required super.noteTypeId,
-    required super.flds,
+    required super.fields,
     required super.sfld,
     required super.createdAt,
     required super.updatedAt,
@@ -16,7 +16,7 @@ class NoteModel extends Note {
     return NoteModel(
       id: json['id'],
       noteTypeId: json['note_type_id'],
-      flds: json['flds'],
+      fields: json['flds'].split('\x1f'),
       sfld: json['sfld'],
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
@@ -27,7 +27,7 @@ class NoteModel extends Note {
     return {
       'id': id,
       'note_type_id': noteTypeId,
-      'flds': flds,
+      'flds': fields.join('\x1f'),
       'sfld': sfld,
       'created_at': createdAt.microsecondsSinceEpoch ~/ 1000,
       'updated_at': updatedAt.microsecondsSinceEpoch ~/ 1000,
@@ -38,7 +38,7 @@ class NoteModel extends Note {
     return {
       'id': id,
       'note_type_id': noteTypeId,
-      'flds': flds,
+      'flds': fields.join('\x1f'),
       'sfld': sfld,
       'created_at': toIsoWithOffset(createdAt),
       'updated_at': toIsoWithOffset(updatedAt),
@@ -62,7 +62,7 @@ class NoteModel extends Note {
     return NoteModel(
       id: note.id,
       noteTypeId: note.noteTypeId,
-      flds: note.flds,
+      fields: note.fields,
       sfld: note.sfld,
       createdAt: note.createdAt,
       updatedAt: note.updatedAt,
@@ -73,7 +73,7 @@ class NoteModel extends Note {
   NoteModel copyWith({
     String? id,
     String? noteTypeId,
-    String? flds,
+    List<String>? fields,
     String? sfld,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -81,7 +81,7 @@ class NoteModel extends Note {
     return NoteModel(
       id: id ?? this.id,
       noteTypeId: noteTypeId ?? this.noteTypeId,
-      flds: flds ?? this.flds,
+      fields: fields ?? this.fields,
       sfld: sfld ?? this.sfld,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,

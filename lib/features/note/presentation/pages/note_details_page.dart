@@ -1,3 +1,4 @@
+import 'package:anki_clone/features/note/presentation/components/note_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,16 +13,13 @@ class NoteDetailsPage extends ConsumerStatefulWidget {
 }
 
 class _NoteDetailsPageState extends ConsumerState<NoteDetailsPage> {
-  late final TextEditingController _controller;
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
 
@@ -32,20 +30,7 @@ class _NoteDetailsPageState extends ConsumerState<NoteDetailsPage> {
       appBar: AppBar(title: const Text('Note Details')),
       body: noteState.when(
         data: (note) {
-          _controller.text = note.sfld;
-          return Container(
-            padding: EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                TextField(
-                  controller: _controller,
-                  decoration: const InputDecoration(labelText: 'SFld'),
-                ),
-                Text(note.createdAt.toString()),
-                Text(note.updatedAt.toString()),
-              ],
-            ),
-          );
+          return NoteFormWidget(fieldLabels: note.fields);
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, st) => Center(child: Text('Error: $e')),

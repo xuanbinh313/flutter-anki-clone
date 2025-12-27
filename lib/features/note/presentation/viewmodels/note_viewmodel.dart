@@ -57,7 +57,7 @@ class NoteListNotifier extends AsyncNotifier<List<Note>> {
     final newNote = Note(
       id: const Uuid().v4(),
       noteTypeId: note.noteTypeId,
-      flds: note.flds,
+      fields: note.fields,
       sfld: note.sfld,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),

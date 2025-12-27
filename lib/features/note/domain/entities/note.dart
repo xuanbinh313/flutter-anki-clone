@@ -1,7 +1,7 @@
 class Note {
   final String id;
   final String noteTypeId;
-  final String flds;
+  final List<String> fields;
   final String sfld;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -9,7 +9,7 @@ class Note {
   Note({
     required this.id,
     required this.noteTypeId,
-    required this.flds,
+    required this.fields,
     required this.sfld,
     required this.createdAt,
     required this.updatedAt,
@@ -18,7 +18,7 @@ class Note {
   Note copyWith({
     String? id,
     String? noteTypeId,
-    String? flds,
+    List<String>? fields,
     String? sfld,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -26,7 +26,7 @@ class Note {
     return Note(
       id: id ?? this.id,
       noteTypeId: noteTypeId ?? this.noteTypeId,
-      flds: flds ?? this.flds,
+      fields: fields ?? this.fields,
       sfld: sfld ?? this.sfld,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,

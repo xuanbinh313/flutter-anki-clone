@@ -45,7 +45,7 @@ class NoteRemoteDataSourceImpl implements NoteRemoteDataSource {
         .from('notes')
         .update({
           'note_type_id': note.noteTypeId,
-          'flds': note.flds,
+          'flds': note.fields.join('\x1f'),
           'sfld': note.sfld,
           'updated_at': note.updatedAt.toIso8601String(),
         })

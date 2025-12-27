@@ -116,7 +116,7 @@ class NoteListPage extends ConsumerWidget {
                       Note(
                         id: const Uuid().v4(),
                         noteTypeId: "",
-                        flds: "",
+                        fields: [],
                         sfld: controller.text,
                         createdAt: DateTime.now(),
                         updatedAt: DateTime.now(),
