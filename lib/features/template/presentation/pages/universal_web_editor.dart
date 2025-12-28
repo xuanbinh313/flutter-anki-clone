@@ -118,7 +118,7 @@ class _WindowsEditorState extends State<_WindowsEditor> {
           if (mounted) setState(() => _isReady = true);
         }
       });
-      await _controller.loadUrl("assets/rich-text-editor/dist/index.html");
+      await _controller.loadUrl("http://localhost:8080/index.html");
     } catch (e) {
       print(e);
     }
