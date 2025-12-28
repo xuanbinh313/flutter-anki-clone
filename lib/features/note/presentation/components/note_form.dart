@@ -25,7 +25,9 @@ class _NoteFormWidgetState extends ConsumerState<NoteFormWidget> {
 
   @override
   void dispose() {
-    for (var c in _controllers) c.dispose();
+    for (var c in _controllers) {
+      c.dispose();
+    }
     super.dispose();
   }
 
@@ -44,7 +46,7 @@ class _NoteFormWidgetState extends ConsumerState<NoteFormWidget> {
           child: ListView.separated(
             padding: const EdgeInsets.all(16),
             itemCount: widget.fieldLabels.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 16),
+            separatorBuilder: (_, _) => const SizedBox(height: 16),
             itemBuilder: (context, index) {
               _controllers[index].text = widget.fieldLabels[index];
               return TextField(

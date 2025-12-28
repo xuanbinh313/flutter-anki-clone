@@ -31,14 +31,14 @@ class NoteListPage extends ConsumerWidget {
                     ),
                   ),
                 ),
-                DataColumn(
-                  label: Expanded(
-                    child: Text(
-                      'createdAt',
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    ),
-                  ),
-                ),
+                // DataColumn(
+                //   label: Expanded(
+                //     child: Text(
+                //       'createdAt',
+                //       style: TextStyle(fontStyle: FontStyle.italic),
+                //     ),
+                //   ),
+                // ),
                 DataColumn(
                   label: Expanded(
                     child: Text(
@@ -53,7 +53,13 @@ class NoteListPage extends ConsumerWidget {
                   cells: <DataCell>[
                     DataCell(
                       GestureDetector(
-                        child: Text(note.sfld),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(note.sfld),
+                            Text(note.createdAt.toString()),
+                          ],
+                        ),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -65,7 +71,7 @@ class NoteListPage extends ConsumerWidget {
                         },
                       ),
                     ),
-                    DataCell(Text(note.createdAt.toString())),
+                    // DataCell(Text(note.createdAt.toString())),
                     DataCell(
                       IconButton(
                         icon: const Icon(Icons.delete),
