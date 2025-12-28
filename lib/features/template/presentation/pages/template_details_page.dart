@@ -1,3 +1,4 @@
+import 'package:anki_clone/features/template/presentation/pages/universal_web_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -29,28 +30,16 @@ class _TemplateDetailsPageState extends ConsumerState<TemplateDetailsPage> {
   @override
   Widget build(BuildContext context) {
     final templateState = ref.watch(templateDetailsProvider(widget.templateId));
-    return Scaffold(
-      appBar: AppBar(title: const Text('Template Details')),
-      body: templateState.when(
-        data: (template) {
-          _controller.text = template.name;
-          return Container(
-            padding: EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                TextField(
-                  controller: _controller,
-                  decoration: const InputDecoration(labelText: 'Name'),
-                ),
-                Text(template.createdAt.toString()),
-                Text(template.updatedAt.toString()),
-              ],
-            ),
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, st) => Center(child: Text('Error: $e')),
-      ),
+    return templateState.when(
+      data: (template) {
+        _controller.text = template.name;
+        return Container(
+          padding: EdgeInsets.all(20.0),
+          child: UniversalWebEditor(),
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, st) => Center(child: Text('Error: $e')),
     );
   }
 }

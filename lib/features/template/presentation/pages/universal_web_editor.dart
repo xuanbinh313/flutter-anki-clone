@@ -4,6 +4,10 @@ import 'package:webview_windows/webview_windows.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'editor_html.dart'; // Import chuỗi HTML
 
+final InAppLocalhostServer localhostServer = InAppLocalhostServer(
+  documentRoot: 'assets/dist',
+);
+
 class UniversalWebEditor extends StatelessWidget {
   const UniversalWebEditor({super.key});
 
@@ -30,6 +34,17 @@ class _MacMobileEditor extends StatefulWidget {
 
 class _MacMobileEditorState extends State<_MacMobileEditor> {
   InAppWebViewController? _webViewController;
+  @override
+  void initState() {
+    super.initState();
+    localhostServer.start();
+  }
+
+  @override
+  void dispose() {
+    localhostServer.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,25 +64,21 @@ class _MacMobileEditorState extends State<_MacMobileEditor> {
         ],
       ),
       body: InAppWebView(
-        initialData: InAppWebViewInitialData(data: kQuillHtmlContent),
+        initialUrlRequest: URLRequest(
+          url: WebUri("http://localhost:8080/index.html"),
+        ),
         initialSettings: InAppWebViewSettings(
-          isInspectable: true, // Cho phép debug chuột phải trên Mac
+          isInspectable: true,
           javaScriptEnabled: true,
         ),
-        onWebViewCreated: (controller) {
-          _webViewController = controller;
 
-          // Đăng ký Handler để nhận dữ liệu từ JS gửi về
-          controller.addJavaScriptHandler(
-            handlerName: 'onSave', // Trùng với tên trong file HTML
-            callback: (args) {
-              final String htmlContent = args[0];
-              print("MACOS RECEIVED: $htmlContent");
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Đã lưu trên macOS!")),
-              );
-            },
-          );
+        onLoadStart: (c, url) => print("LOAD START: $url"),
+        onLoadStop: (c, url) => print("LOAD STOP: $url"),
+        onLoadError: (c, url, code, message) =>
+            print("LOAD ERROR: $code - $message"),
+
+        onConsoleMessage: (controller, consoleMessage) {
+          print("JS CONSOLE: ${consoleMessage.message}");
         },
       ),
     );
