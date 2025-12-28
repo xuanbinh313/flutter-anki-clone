@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:webview_windows/webview_windows.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'editor_html.dart'; // Import chuỗi HTML
 
 final InAppLocalhostServer localhostServer = InAppLocalhostServer(
-  documentRoot: 'assets/dist',
+  documentRoot: 'assets/rich-text-editor/dist',
 );
 
 class UniversalWebEditor extends StatelessWidget {
@@ -119,7 +118,7 @@ class _WindowsEditorState extends State<_WindowsEditor> {
           if (mounted) setState(() => _isReady = true);
         }
       });
-      await _controller.loadStringContent(kQuillHtmlContent);
+      await _controller.loadUrl("assets/rich-text-editor/dist/index.html");
     } catch (e) {
       print(e);
     }
